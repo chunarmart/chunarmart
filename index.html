@@ -1,33 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chunar Mart</title>
 
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1E7A34">
+
 <script>
-window.onload = function(){
-window.location.href="https://www.smartbiz.in/SatNura";
+if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+    window.location.replace("https://www.smartbiz.in/SatNura");
 }
 </script>
 
 <style>
 body{
-font-family:Arial;
+font-family:Arial,sans-serif;
 text-align:center;
-padding-top:80px;
-background:#ffffff;
+padding:50px;
+background:#f7f7f7;
 }
 h1{color:#1E7A34;}
-p{color:#555;}
+button{
+padding:14px 24px;
+background:#1E7A34;
+color:white;
+border:none;
+border-radius:10px;
+font-size:18px;
+}
 </style>
-
 </head>
 
 <body>
 
 <h1>Chunar Mart</h1>
-<p>Opening Store...</p>
+<h2>Fresh Grocery Delivered</h2>
+<p>Install app for faster shopping</p>
+
+<button id="installBtn" style="display:none;">📲 Install App</button>
+
+<script>
+if ('serviceWorker' in navigator) {
+navigator.serviceWorker.register('service-worker.js');
+}
+
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+e.preventDefault();
+deferredPrompt = e;
+document.getElementById("installBtn").style.display = "inline-block";
+});
+
+document.getElementById("installBtn").onclick = async () => {
+if (deferredPrompt) {
+deferredPrompt.prompt();
+deferredPrompt = null;
+}
+};
+</script>
 
 </body>
 </html>
